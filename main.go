@@ -44,6 +44,10 @@ func getUserById(c *fiber.Ctx) error {
 	})
 }
 
+func deleteUserById(c *fiber.Ctx) error {
+	return c.SendString("To be implemented yet")
+}
+
 func main() {
 	// Create a new Fiber app
 	app := fiber.New()
@@ -55,6 +59,7 @@ func main() {
 	app.Get("/", rootHandler)
 	app.Get("/users", getUsers)
 	app.Get("/users/id", getUserById)
+	app.Delete("/users/id", deleteUserById)
 
 	// Create a channel to listen for an interrupt or termination signal from the OS
 	quit := make(chan os.Signal, 1)
