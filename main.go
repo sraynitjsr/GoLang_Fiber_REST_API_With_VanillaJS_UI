@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"fmt"
 	"log"
 	"os"
 	"os/signal"
@@ -29,6 +30,20 @@ func getUsers(c *fiber.Ctx) error {
 	return c.JSON(users)
 }
 
+func getUserById(c *fiber.Ctx) error {
+	id := c.Params("id")
+
+	for _, user := range users {
+		if fmt.Sprint(user.ID) == id {
+			return c.JSON(user)
+		}
+	}
+
+	return c.Status(fiber.StatusNotFound).JSON(fiber.Map{
+		"message": "User not found",
+	})
+}
+
 func main() {
 	// Create a new Fiber app
 	app := fiber.New()
@@ -39,6 +54,7 @@ func main() {
 	// Routes
 	app.Get("/", rootHandler)
 	app.Get("/users", getUsers)
+	app.Get("/users/id", getUserById)
 
 	// Create a channel to listen for an interrupt or termination signal from the OS
 	quit := make(chan os.Signal, 1)
