@@ -11,8 +11,22 @@ import (
 	"github.com/gofiber/fiber/v2/middleware/logger"
 )
 
+type User struct {
+	ID   int    `json:"id"`
+	Name string `json:"name"`
+}
+
+var users = []User{
+	{ID: 1, Name: "Tufan"},
+	{ID: 2, Name: "CR7"},
+}
+
 func rootHandler(c *fiber.Ctx) error {
-	return c.SendString("Welcome to the API!")
+	return c.SendString("Welcome to the Users REST API Using Go Fiber")
+}
+
+func getUsers(c *fiber.Ctx) error {
+	return c.JSON(users)
 }
 
 func main() {
@@ -24,6 +38,7 @@ func main() {
 
 	// Routes
 	app.Get("/", rootHandler)
+	app.Get("/users", getUsers)
 
 	// Create a channel to listen for an interrupt or termination signal from the OS
 	quit := make(chan os.Signal, 1)
@@ -31,7 +46,7 @@ func main() {
 
 	// Start the server in a separate goroutine
 	go func() {
-		if err := app.Listen(":3000"); err != nil {
+		if err := app.Listen(":8000"); err != nil {
 			log.Fatalf("Server error: %v", err)
 		}
 	}()
