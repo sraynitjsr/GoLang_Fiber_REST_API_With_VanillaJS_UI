@@ -66,8 +66,10 @@ func main() {
 	signal.Notify(quit, os.Interrupt)
 
 	// Start the server in a separate goroutine
+	port := 8000
+	host := fmt.Sprintf(":%v", port)
 	go func() {
-		if err := app.Listen(":8000"); err != nil {
+		if err := app.Listen(host); err != nil {
 			log.Fatalf("Server error: %v", err)
 		}
 	}()
