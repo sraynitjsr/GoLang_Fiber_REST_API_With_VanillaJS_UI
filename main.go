@@ -56,6 +56,15 @@ func main() {
 	// Middleware
 	app.Use(logger.New())
 
+	// Middleware
+	app.Use(filesystem.New(filesystem.Config{
+		Root:         http.Dir("./app"),
+		Browse:       true,
+		Index:        "index.html",
+		NotFoundFile: "404.html",
+		MaxAge:       3600,
+	}))
+
 	// Routes
 	app.Get("/", rootHandler)
 	app.Get("/users", getUsers)
