@@ -89,7 +89,7 @@ func main() {
 	log.Println("Shutting down server...")
 
 	// Create a context with a timeout for the graceful shutdown
-	_, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	_, cancel := context.WithTimeout(context.Background(), 2.5*time.Second)
 	defer cancel()
 
 	// Perform the graceful shutdown by shutting down the server and blocking until all connections are closed
