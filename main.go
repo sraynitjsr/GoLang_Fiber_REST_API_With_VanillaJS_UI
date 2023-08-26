@@ -1,6 +1,9 @@
 package main
 
-import "github.com/gofiber/fiber"
+import (
+    "github.com/gofiber/fiber/v2"
+    "github.com/gofiber/fiber/v2/middleware/limiter"
+)
 
 func main() {
   app := fiber.New()
