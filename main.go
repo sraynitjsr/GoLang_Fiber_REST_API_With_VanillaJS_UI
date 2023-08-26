@@ -5,6 +5,8 @@ import "github.com/gofiber/fiber"
 func main() {
   app := fiber.New()
 
+  app.Use(limiter.New())
+
   app.Get("/", func(c *fiber.Ctx) {
     c.Send("Hello, World!")
   })
