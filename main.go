@@ -20,7 +20,7 @@ func main() {
 			return c.Get("x-forwarded-for")
 		},
 		LimitReached: func(c *fiber.Ctx) error {
-			return c.SendFile("./toofast.html")
+			return c.SendFile("./limit-reached.html")
 		},
 		Storage: myCustomStorage{},
 	}))
