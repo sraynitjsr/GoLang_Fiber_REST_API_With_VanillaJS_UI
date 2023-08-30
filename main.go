@@ -31,3 +31,27 @@ func main() {
 
 	app.Listen(3000)
 }
+
+func login(c *fiber.Ctx) error {
+    user := c.FormValue("user")
+    pass := c.FormValue("pass")
+
+    if user != "ray" || pass != "007" {
+        return c.SendStatus(fiber.StatusUnauthorized)
+    }
+
+    claims := jwt.MapClaims{
+        "name":  "Subhradeep Ray",
+        "admin": true,
+        "exp":   time.Now().Add(time.Hour * 72).Unix(),
+    }
+
+    token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
+
+    t, err := token.SignedString([]byte("secret"))
+    if err != nil {
+        return c.SendStatus(fiber.StatusInternalServerError)
+    }
+
+    return c.JSON(fiber.Map{"token": t})
+}
