@@ -29,6 +29,8 @@ func main() {
 		c.Send("Hello, World!")
 	})
 
+	app.Post("/login", login)
+
 	app.Listen(3000)
 }
 
