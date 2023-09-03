@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fetch Data from localhost:3000/helloWorld</title>
+    <title>Fetch REST API Data Using JavaScript fetch()</title>
 </head>
+
 <body>
     <button id="fetchButton">Fetch Data</button>
     <div id="responseContainer"></div>
@@ -15,16 +17,14 @@
             const responseContainer = document.getElementById('responseContainer');
 
             fetchButton.addEventListener('click', function () {
-                // Make the GET request using fetch()
                 fetch('http://localhost:3000/helloWorld')
                     .then(response => {
                         if (!response.ok) {
                             throw new Error('Network response was not ok');
                         }
-                        return response.json(); // Assuming the response is in JSON format
+                        return response.json();
                     })
                     .then(data => {
-                        // Handle the response data
                         responseContainer.textContent = JSON.stringify(data, null, 2);
                     })
                     .catch(error => {
@@ -34,4 +34,5 @@
         });
     </script>
 </body>
+
 </html>
