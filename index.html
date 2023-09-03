@@ -3,37 +3,35 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fetch GET Request</title>
+    <title>Fetch Data from localhost:3000/helloWorld</title>
 </head>
 <body>
     <button id="fetchButton">Fetch Data</button>
-    <div id="output"></div>
+    <div id="responseContainer"></div>
 
     <script>
-        // Function to fetch data from the API
-        function fetchData() {
-            // Replace 'http://localhost:3000/api' with your actual API endpoint
-            const apiUrl = 'http://localhost:3000/api';
+        document.addEventListener('DOMContentLoaded', function () {
+            const fetchButton = document.getElementById('fetchButton');
+            const responseContainer = document.getElementById('responseContainer');
 
-            // Make a GET request using fetch()
-            fetch(apiUrl)
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error('Network response was not ok');
-                    }
-                    return response.json(); // Parse the response as JSON
-                })
-                .then(data => {
-                    // Handle the data
-                    document.getElementById('output').textContent = JSON.stringify(data, null, 2);
-                })
-                .catch(error => {
-                    console.error('There was a problem with the fetch operation:', error);
-                });
-        }
-
-        // Add a click event listener to the button
-        document.getElementById('fetchButton').addEventListener('click', fetchData);
+            fetchButton.addEventListener('click', function () {
+                // Make the GET request using fetch()
+                fetch('http://localhost:3000/helloWorld')
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok');
+                        }
+                        return response.json(); // Assuming the response is in JSON format
+                    })
+                    .then(data => {
+                        // Handle the response data
+                        responseContainer.textContent = JSON.stringify(data, null, 2);
+                    })
+                    .catch(error => {
+                        console.error('There was a problem with the fetch operation:', error);
+                    });
+            });
+        });
     </script>
 </body>
 </html>
