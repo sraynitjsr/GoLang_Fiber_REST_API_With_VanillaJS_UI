@@ -13,12 +13,19 @@ func main() {
 	app.Use(cors.New())
 
 	app.Get("/", func(c *fiber.Ctx) error {
-		return c.SendString("Hello, World!")
+		return c.SendString("Welcome to Items Web Application")
 	})
 
-	app.Get("/helloWorld", func(c *fiber.Ctx) error {
+	app.Get("/getItemA", func(c *fiber.Ctx) error {
 		data := map[string]string{
-			"message": "This is a Sample API Endpoint",
+			"message": "Item A Fetched",
+		}
+		return c.JSON(data)
+	})
+
+	app.Get("/getItemB", func(c *fiber.Ctx) error {
+		data := map[string]string{
+			"message": "Item B Fetched",
 		}
 		return c.JSON(data)
 	})

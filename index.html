@@ -4,20 +4,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fetch REST API Data Using JavaScript fetch()</title>
+    <title>Fetch Data from Golang Fiber REST API</title>
 </head>
 
-<body>
-    <button id="fetchButton">Fetch Data</button>
-    <div id="responseContainer"></div>
+<body bgcolor="cyan">
+    <ul>
+        <li id="fetchItemA" style="cursor: pointer;">Item A</li>
+        <li id="fetchItemB" style="cursor: pointer;">Item B</li>
+    </ul>
+    <div id="responseContainer" style="display: none;"></div>
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            const fetchButton = document.getElementById('fetchButton');
+            const fetchItemA = document.getElementById('fetchItemA');
+            const fetchItemB = document.getElementById('fetchItemB');
             const responseContainer = document.getElementById('responseContainer');
 
-            fetchButton.addEventListener('click', function () {
-                fetch('http://localhost:3000/helloWorld')
+            function fetchData(apiEndpoint) {
+                fetch(`http://localhost:3000${apiEndpoint}`)
                     .then(response => {
                         if (!response.ok) {
                             throw new Error('Network response was not ok');
@@ -30,6 +34,16 @@
                     .catch(error => {
                         console.error('There was a problem with the fetch operation:', error);
                     });
+            }
+
+            fetchItemA.addEventListener('click', function () {
+                fetchData('/getItemA');
+                responseContainer.style.display = 'block';
+            });
+
+            fetchItemB.addEventListener('click', function () {
+                fetchData('/getItemB');
+                responseContainer.style.display = 'block';
             });
         });
     </script>
