@@ -1,0 +1,43 @@
+body {
+    display: flex;
+}
+
+ul {
+    width: 30%;
+    padding: 0;
+    list-style: none;
+    background-color: lightblue;
+    border-right: 1px solid black;
+    margin: 0;
+}
+
+li {
+    cursor: pointer;
+    padding: 10px;
+    margin-bottom: 5px;
+    font-size: 20px;
+}
+
+#responseContainer {
+    width: 70%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    background-color: lightblue;
+    margin: 0;
+}
+
+.center-content {
+    text-align: center;
+}
+
+#responseData {
+    font-size: 30px;
+}
+
+.frame-separator {
+    width: 10px;
+    background-color: black;
+    height: 100%;
+}
