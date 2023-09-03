@@ -1,9 +1,39 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <link rel="stylesheet" type="text/css" href="styles.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fetch GET Request</title>
 </head>
 <body>
-    <h1>Welcome Home</h1>
+    <button id="fetchButton">Fetch Data</button>
+    <div id="output"></div>
+
+    <script>
+        // Function to fetch data from the API
+        function fetchData() {
+            // Replace 'http://localhost:3000/api' with your actual API endpoint
+            const apiUrl = 'http://localhost:3000/api';
+
+            // Make a GET request using fetch()
+            fetch(apiUrl)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json(); // Parse the response as JSON
+                })
+                .then(data => {
+                    // Handle the data
+                    document.getElementById('output').textContent = JSON.stringify(data, null, 2);
+                })
+                .catch(error => {
+                    console.error('There was a problem with the fetch operation:', error);
+                });
+        }
+
+        // Add a click event listener to the button
+        document.getElementById('fetchButton').addEventListener('click', fetchData);
+    </script>
 </body>
 </html>
