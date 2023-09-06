@@ -5,7 +5,7 @@ import (
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
-	"yourappname/handler"
+	"github.com/sraynitjsr/server/handler"
 )
 
 func main() {
