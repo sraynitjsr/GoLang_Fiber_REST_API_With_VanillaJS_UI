@@ -4,21 +4,22 @@ import (
 	"strconv"
 
 	"github.com/gofiber/fiber/v2"
-	"github.com/sraynitjsr/server/db"
+	"github.com/sraynitjsr/server/service"
 )
 
-func Home(c *fiber.Ctx) error {
-	return c.SendString("Welcome to Items API")
+type ItemHandler struct {
+	ItemService service.ItemService
 }
 
-func GetItems(c *fiber.Ctx) error {
-	items := db.GetAllItems()
-	return c.JSON(items)
+func NewItemHandler(itemService service.ItemService) *ItemHandler {
+	return &ItemHandler{
+		ItemService: itemService,
+	}
 }
 
-// http://localhost:3000/getItemByID?id=3 for example
+// curl http://localhost:3000/getItemByID?id=1
 
-func GetItemByID(c *fiber.Ctx) error {
+func (h *ItemHandler) GetItemByID(c *fiber.Ctx) error {
 	idStr := c.Query("id")
 
 	id, err := strconv.Atoi(idStr)
@@ -26,7 +27,7 @@ func GetItemByID(c *fiber.Ctx) error {
 		return c.Status(fiber.StatusBadRequest).SendString("Invalid 'id' parameter")
 	}
 
-	item, found := db.GetItemByID(id)
+	item, found := h.ItemService.GetItemByID(id)
 	if !found {
 		return c.Status(fiber.StatusNotFound).SendString("Item not found")
 	}
@@ -34,15 +35,26 @@ func GetItemByID(c *fiber.Ctx) error {
 	return c.JSON(item)
 }
 
-// http://localhost:3000/getItemByName?name=Item%203 for example
+// curl http://localhost:3000/getItemByName?name=Item%203
 
-func GetItemByName(c *fiber.Ctx) error {
+func (h *ItemHandler) GetItemByName(c *fiber.Ctx) error {
 	name := c.Query("name")
 
-	item, found := db.GetItemByName(name)
+	item, found := h.ItemService.GetItemByName(name)
 	if !found {
 		return c.Status(fiber.StatusNotFound).SendString("Item not found")
 	}
 
 	return c.JSON(item)
+}
+
+// curl http://localhost:3000/getItems
+
+func (h *ItemHandler) GetItems(c *fiber.Ctx) error {
+	items := h.ItemService.GetAllItems()
+	return c.JSON(items)
+}
+
+func (h *ItemHandler) Home(c *fiber.Ctx) error {
+	return c.SendString("Welcome to API For Items")
 }

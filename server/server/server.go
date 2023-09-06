@@ -1,17 +1,32 @@
 package main
 
 import (
+	"fmt"
+
 	"github.com/gofiber/fiber/v2"
+	"github.com/sraynitjsr/server/config"
+	"github.com/sraynitjsr/server/db"
 	"github.com/sraynitjsr/server/handler"
 )
 
 func main() {
+	appConfig, err := config.LoadConfig()
+	if err != nil {
+		fmt.Printf("Error loading configuration: %v\n", err)
+		return
+	}
+
 	app := fiber.New()
 
-	app.Get("/", handler.Home)
-	app.Get("/getItems", handler.GetItems)
-	app.Get("/getItemByID", handler.GetItemByID)
-	app.Get("/getItemByName", handler.GetItemByName)
+	itemService := db.NewItemDB()
 
-	app.Listen(":3000")
+	itemHandler := handler.NewItemHandler(itemService)
+
+	app.Get("/", itemHandler.Home)
+	app.Get("/getItems", itemHandler.GetItems)
+	app.Get("/getItemByID", itemHandler.GetItemByID)
+	app.Get("/getItemByName", itemHandler.GetItemByName)
+
+	port := fmt.Sprintf(":%d", appConfig.Port)
+	app.Listen(port)
 }
