@@ -5,30 +5,18 @@ import (
 	"github.com/sraynitjsr/server/model"
 )
 
-func welcomeHandler(c *fiber.Ctx) error {
-	return c.SendString("Welcome to Items Web Application")
+func Home(c *fiber.Ctx) error {
+	return c.SendString("Welcome to Items API Home Page")
 }
 
-func getItemA(c *fiber.Ctx) error {
-	item := model.ItemStruct{
-		ID:      1,
-		Name:    "A",
-		Message: "This is A",
+func GetItems(c *fiber.Ctx) error {
+	items := []model.ItemStruct{
+		{ID: 1, Name: "Item 1", Message: "Message One"},
+		{ID: 2, Name: "Item 2", Message: "Message Two"},
+		{ID: 3, Name: "Item 3", Message: "Message Three"},
+		{ID: 4, Name: "Item 4", Message: "Message Four"},
+		{ID: 5, Name: "Item 5", Message: "Message Five"},
 	}
-	return c.JSON(item)
-}
 
-func getItemB(c *fiber.Ctx) error {
-	item := model.ItemStruct{
-		ID:      2,
-		Name:    "B",
-		Message: "This is B",
-	}
-	return c.JSON(item)
-}
-
-func SetupRoutes(app *fiber.App) {
-	app.Get("/", welcomeHandler)
-	app.Get("/getItemA", getItemA)
-	app.Get("/getItemB", getItemB)
+	return c.JSON(items)
 }
