@@ -10,6 +10,8 @@ func main() {
 
 	app.Get("/", handler.Home)
 	app.Get("/getItems", handler.GetItems)
+	app.Get("/getItemByID", handler.GetItemByID)
+	app.Get("/getItemByName", handler.GetItemByName)
 
 	app.Listen(":3000")
 }

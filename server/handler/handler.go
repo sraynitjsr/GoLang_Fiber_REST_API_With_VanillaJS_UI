@@ -1,22 +1,48 @@
 package handler
 
 import (
+	"strconv"
+
 	"github.com/gofiber/fiber/v2"
-	"github.com/sraynitjsr/server/model"
+	"github.com/sraynitjsr/server/db"
 )
 
 func Home(c *fiber.Ctx) error {
-	return c.SendString("Welcome to Items API Home Page")
+	return c.SendString("Welcome to Items API")
 }
 
 func GetItems(c *fiber.Ctx) error {
-	items := []model.ItemStruct{
-		{ID: 1, Name: "Item 1", Message: "Message One"},
-		{ID: 2, Name: "Item 2", Message: "Message Two"},
-		{ID: 3, Name: "Item 3", Message: "Message Three"},
-		{ID: 4, Name: "Item 4", Message: "Message Four"},
-		{ID: 5, Name: "Item 5", Message: "Message Five"},
+	items := db.GetAllItems()
+	return c.JSON(items)
+}
+
+// http://localhost:3000/getItemByID?id=3 for example
+
+func GetItemByID(c *fiber.Ctx) error {
+	idStr := c.Query("id")
+
+	id, err := strconv.Atoi(idStr)
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).SendString("Invalid 'id' parameter")
 	}
 
-	return c.JSON(items)
+	item, found := db.GetItemByID(id)
+	if !found {
+		return c.Status(fiber.StatusNotFound).SendString("Item not found")
+	}
+
+	return c.JSON(item)
+}
+
+// http://localhost:3000/getItemByName?name=Item%203 for example
+
+func GetItemByName(c *fiber.Ctx) error {
+	name := c.Query("name")
+
+	item, found := db.GetItemByName(name)
+	if !found {
+		return c.Status(fiber.StatusNotFound).SendString("Item not found")
+	}
+
+	return c.JSON(item)
 }
