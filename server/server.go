@@ -11,6 +11,8 @@ import (
 func main() {
 	app := fiber.New()
 
+	app.Use(cors.New())
+
 	handler.SetupRoutes(app)
 
 	log.Fatal(app.Listen(":3000"))
