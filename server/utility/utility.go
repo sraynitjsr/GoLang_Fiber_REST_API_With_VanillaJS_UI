@@ -6,12 +6,24 @@ import (
 	"sort"
 )
 
-func GetSortedItems(itemDB *db.ItemDB) []model.ItemStruct {
+type SortOrder int
+
+const (
+	Ascending  SortOrder = iota
+	Descending SortOrder = iota
+)
+
+func GetSortedItems(itemDB *db.ItemDB, sortOrder SortOrder) []model.ItemStruct {
 	allItems := itemDB.GetAllItems()
-  
-	sort.Slice(allItems, func(i, j int) bool {
-		return allItems[i].ID < allItems[j].ID
-	})
-  
+
+	sortFunc := func(i, j int) bool {
+		if sortOrder == Ascending {
+			return allItems[i].ID < allItems[j].ID
+		}
+		return allItems[i].ID > allItems[j].ID
+	}
+
+	sort.Slice(allItems, sortFunc)
+
 	return allItems
 }
