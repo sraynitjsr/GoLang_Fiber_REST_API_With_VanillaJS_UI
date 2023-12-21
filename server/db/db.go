@@ -38,3 +38,13 @@ func (db *ItemDB) GetAllItems() []model.ItemStruct {
 	}
 	return items
 }
+
+func (db *ItemDB) DeleteItemByName(name string) bool {
+	for id, item := range db.Items {
+		if item.Name == name {
+			delete(db.Items, id)
+			return true
+		}
+	}
+	return false
+}
