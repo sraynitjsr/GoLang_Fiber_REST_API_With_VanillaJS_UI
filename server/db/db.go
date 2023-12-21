@@ -48,3 +48,12 @@ func (db *ItemDB) DeleteItemByName(name string) bool {
 	}
 	return false
 }
+
+func (db *ItemDB) DeleteItemByID(id int) bool {
+	_, found := db.Items[id]
+	if found {
+		delete(db.Items, id)
+		return true
+	}
+	return false
+}
